@@ -1,0 +1,16 @@
+
+
+.content{
+    color: white;
+    background: black;
+    padding: 10px;
+    margin:5px 0px;
+}
+#input{
+    padding: 10px;
+}
+
+.reset{
+    color:red; 
+    
+}
