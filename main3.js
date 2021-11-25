@@ -79,7 +79,6 @@ function feedbackDirection(input1, input2){
     let feedback = document.createElement('div');
     feedback.classList.add('content');
     feedback.textContent = `You head ${input1} towards the ${input2}`
-    
     return container.appendChild(feedback);
 }
 
