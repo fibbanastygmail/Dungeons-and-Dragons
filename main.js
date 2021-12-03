@@ -6,6 +6,7 @@ const text1 = `You walk into some grassy plains. You see a forest to the east. T
 const text2 = "You are in a forest. Trees are everywhere. You see a pair of shiny eyes in the distance."
 const text3 = 'Text3'
 const text4 = "Text4"
+const statBox = document.getElementById('statBox');
 let raceSelected = false;
 let classSelected = false;
 const contentTextList = [text1, text2, text3, text4]
@@ -15,18 +16,18 @@ let currentEnemy = "";
 let currentEnemyHealth = 0;
 let playerWeapon = "sword";
 let playerHealth = 10;
-
+let currentStatNum = 0;
+let statIncrement = 0;
 const player = {
     race: ['Human', 'Orc', 'Elf', 'Dwarf'],
     class:['Cleric', 'Paladin', 'Ranger', 'Fighter', 'Wizard'],
     profession:['Thief', 'Hermit', 'Priest', 'Warrior',],
     hp: 10,
     armorClass:0,
-    strength:0,
-    constitution:0,
-    wisdom:0,
-    intellgence:0,
-    charsima:0,
+    Strength:0,
+    Constitution:0,
+    Wisdom,
+    Intelligence
 
 
 }
@@ -90,15 +91,16 @@ function enableButton(){
 
     for(i=0; i<classBtns.length;i++){
         
-        classBtns[i].addEventListener('click', function closeBox() {
+        classBtns[i].addEventListener('click', function toggleBox() {
             classBox.style.display = 'none';
+            statBox.style.display = 'block';
         });
             
         
        
+    }     
     }
-   
-}
+
 
 function getRaceId(clicked){
     player.race = clicked;
@@ -121,4 +123,39 @@ function characterFeedback(){
     container.appendChild(content);
 }
 
-enableButton();
+
+function characterSelection(){
+    enableButton();
+    if (classSelected && raceSelected){
+        characterFeedback();
+    }
+}
+function setStat(stat) {
+    content = document.getElementById('rollSection');
+    content.textContent = `You have rolled a ${currentStatNum}.`
+    assignStat = document.getElementById(stat.id)
+    assignStat.textContent = `${stat.id}: ${currentStatNum}`
+    
+    statIncrement++;
+    if (statIncrement >= 4) { // cuz theres 4 stats so it stops at 4
+        content.textContent = ``;
+        statBox.style.display = 'none';
+        return
+    } else {
+    allocateStats();
+    }
+
+    
+    
+
+}
+function roll(diceNum) {
+    return Math.floor(Math.random()*(diceNum) + 1)
+}
+function allocateStats() {
+    content = document.getElementById('rollSection');
+    currentStatNum = roll(20);
+    content.textContent = `You have rolled a ${currentStatNum}.`
+}
+allocateStats();
+characterSelection();
