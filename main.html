@@ -10,7 +10,33 @@
     <title>D and D</title>
 </head>
 <body>
+
     <h1>Dungeons and Dragons </h1>
+
+    <div id='raceBox'>
+
+        <div id=raceBoxContent class='boxContent' class='box'>
+            <div>Choose your race.</div>
+         <button id= 'human' class='raceBtn' onClick="getRaceId(this.id)">Human</button>
+         <button id= 'dwarf' class='raceBtn' onClick="getRaceId(this.id)">Dwarf</button>
+         <button id= 'elf' class='raceBtn' onClick="getRaceId(this.id)">Elf</button>
+         <button id= 'orc' class='raceBtn' onClick="getRaceId(this.id)">Orc</button>
+            </div>
+        </div>
+    </div>
+
+    <div id='classBox' class='box'>
+
+        <div id = classBoxContent class='boxContent'>
+            <div>Choose your class.</div>
+         <button id= 'cleric' class='classBtn' onClick="getClassId(this.id)">Cleric</button>
+         <button id= 'druid' class='classBtn' onClick="getClassId(this.id)">Druid</button>
+         <button id= 'ranger' class='classBtn' onClick="getClassId(this.id)">Ranger</button>
+         <button id= 'wizard' class='classBtn' onClick="getClassId(this.id)">Wizard</button>
+            </div>
+        </div>
+    </div>
+
     <div id="container"></div>
    
     

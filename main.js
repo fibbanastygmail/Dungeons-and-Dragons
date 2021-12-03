@@ -1,10 +1,13 @@
 const container = document.querySelector('#container');
 
+
 const WDYD = document.createElement('div');
 const text1 = `You walk into some grassy plains. You see a forest to the east. To the west is a tall stone building.`
 const text2 = "You are in a forest. Trees are everywhere. You see a pair of shiny eyes in the distance."
 const text3 = 'Text3'
 const text4 = "Text4"
+let raceSelected = false;
+let classSelected = false;
 const contentTextList = [text1, text2, text3, text4]
 let contentCount = 0;
 let inputCount = 0;
@@ -12,6 +15,27 @@ let currentEnemy = "";
 let currentEnemyHealth = 0;
 let playerWeapon = "sword";
 let playerHealth = 10;
+
+const player = {
+    race: ['Human', 'Orc', 'Elf', 'Dwarf'],
+    class:['Cleric', 'Paladin', 'Ranger', 'Fighter', 'Wizard'],
+    profession:['Thief', 'Hermit', 'Priest', 'Warrior',],
+    hp: 10,
+    armorClass:0,
+    strength:0,
+    constitution:0,
+    wisdom:0,
+    intellgence:0,
+    charsima:0,
+
+
+}
+
+
+
+
+
+
 const commonEnemy = {
     type: ["Goblin", "Witch", "Skeleton", "Slime", "Bat", "Ant", "Boar"],
     mod: ["Red", "Dark", "Blood", "Hearty", "Ancient", "Corrupted", "Tainted", "Clever"],
@@ -46,179 +70,55 @@ const randomDungeonRoom = {
         container.appendChild(enemyText);
     }
 }
-WDYD.classList.add('content');
-WDYD.textContent = 'What do you do?';
-createContentElement();
-container.appendChild(WDYD);
-createUserInputDirection();
-getUserInput().addEventListener('change', makeDecision)
 
-function makeDecision(){
-    if (currentEnemy === ""){
-        currentEnemy = commonEnemy.createEnemy();
-        console.log(currentEnemy);
-    }
-    else {
-        console.log("its else");
-        console.log(currentEnemy);
-    }
-    battle()
-    randomNum = Math.floor(Math.random()*100)
-    //currentArea = areaList[0]
-    createContentElement();
-    container.appendChild(WDYD);
-    createUserInputDirection();
-    getUserInput().addEventListener('change', makeDecision)
-    getUserInput().disabled = true
-    getUserInput().addEventListener('change', makeDecision)
-    console.log(`${randomNum}`)
-}
+function enableButton(){
+    const raceBtns = document.getElementsByClassName('raceBtn');
+    const classBtns = document.getElementsByClassName('classBtn')
+    const raceBox = document.getElementById('raceBox');
+    const classBox = document.getElementById('classBox');
 
-function battle() {
-    createBattleElement(`The ${currentEnemy} readies their attack.`)
-    createBattleElement(`You attempt to block their attack.`)
-    createBattleElement(`You ready your ${playerWeapon} and attempt to attack the ${currentEnemy}.`)
-    console.log(playerHealth)
-    console.log(currentEnemyHealth)
-    while ((currentEnemyHealth > 0) && (playerHealth > 0)) {
-        console.log("made it in")
-        enemyAttack = Math.floor(Math.random()*4 + 1)
-        playerBlock = Math.floor(Math.random()*2 + 1)
-        if (enemyAttack > 0) {
-            createBattleElement(`The enemy attempts to strike you for ${enemyAttack} hitpoints!`)
-            createPlayerElement(`You block ${playerBlock} damage from their attack!`)
-            playerHealth = playerHealth - (enemyAttack - playerBlock)
-        }
-        else {    
-            createBattleElement(`The ${currentEnemy} missed their attack. Go for a counterstrike!`)
-        }
-    }
-    console.log(playerHealth)
-    console.log(currentEnemyHealth)
-    if (currentEnemyHealth <= 0) {
-        createBattleElement(`You have defeated the ${currentEnemy}!`)
-        currentEnemy = "";
-    }
-    else if (playerHealth <= 0) {
-        console.log("made it into defeat")
-        createBattleElement(`You have been defeated.`)
-        playerHealth = 10
-    }
-}
-function createBattleElement(text){
-    battleText = document.createElement('div');
-    battleText.classList.add('content');
-    battleText.textContent = text;
-    if (!container.contains(battleText)) {
-        container.appendChild(battleText);
-    }
-    else {
-        container.replaceChild(battleText);
-    }
-} 
-function createEnemyElement(text){
-        battleText = document.createElement('div');
-        battleText.classList.add('content');
-        battleText.textContent = text;
-        if (!container.contains(battleText)) {
-            container.appendChild(battleText);
-        }
-        else {
-            container.replaceChild(battleText);
-        }
-    }
-function createPlayerElement(text){
-        battleText = document.createElement('div');
-        battleText.classList.add('content');
-        battleText.textContent = text;
-        if (!container.contains(battleText)) {
-            container.appendChild(battleText);
-        }
-        else {
-            container.replaceChild(battleText);
-        }
-    }
-function createContentElement(){
-    const element = document.createElement('div');
-    element.classList.add('content');
-
-    
-    for(i=0; i<1000; i++){
+    for(i=0; i<raceBtns.length;i++){
         
-    
-        if(container.contains(document.getElementById('content' + contentCount))){
-       {
-            element.setAttribute('id','content' + (contentCount+1));
-            element.textContent = contentTextList[contentCount + 1];
-        }
-        }
-        else{
-            element.setAttribute('id', 'content' + (contentCount));
-            element.textContent = contentTextList[contentCount];
-        
-
-        }
-        contentCount++;
-        break;
-    }
-  
-    
-    container.appendChild(element);
-    
-}
-
-function createUserInputDirection(){
-    const element = document.createElement('INPUT');
-    element.setAttribute('type', 'text')
-    element.setAttribute('id', 'direction')
-
-    for(i=0; i<=1000; i++){
-        if(container.contains(document.getElementById('input' + inputCount)))
-        element.setAttribute('id', 'input' + (inputCount + 1));
-        else{
-            element.setAttribute('id', 'input' + inputCount);
-        }
-        inputCount++;
-        break;
-    }
-    
-   
-    container.appendChild(element);
-}
-
-function getUserInput(){
-    
-
-    for(i=0; i<10000; i++){
-        const myInput = document.getElementById('input' + i);
-        if (!myInput.disabled){
-            return myInput;
+        raceBtns[i].addEventListener('click', function toggleBox() {
+            raceBox.style.display = 'none';
+            classBox.style.display = 'block';
+        });
             
-        }
+        
+       
     }
-}
 
-function getRandomDirection(){
-    const directionList = ['north', 'south', 'east', 'west']
-    return directionList[Math.floor(Math.random()*directionList.length)]
-    
-}
-
-function getUniqueRandomDirection(){
-     
-    
-    direction1 = getRandomDirection();
-    direction2 = getRandomDirection();
-    if (direction1 === direction2){
-        direction1 = getRandomDirection();
+    for(i=0; i<classBtns.length;i++){
+        
+        classBtns[i].addEventListener('click', function closeBox() {
+            classBox.style.display = 'none';
+        });
+            
+        
+       
     }
-    else
-    return [direction1,direction2];
+   
 }
 
+function getRaceId(clicked){
+    player.race = clicked;
+    raceSelected = true;
+    console.log(player.race);
 
+}
 
+function getClassId(clicked){
+    player.class = clicked;
+    classSelected = true;
+    console.log(player.class);
+    characterFeedback(); // I tried to use two bools and an if statement to make this not have to go in here. So like characheter select function that enables
+    // buttons and if class selected then give charachter feedback but it doesn;t work. These are the strange things I do not understand.
 
+}
+function characterFeedback(){
+    content = document.createElement('div');
+    content.textContent = `You are a ${player.race} ${player.class}.`
+    container.appendChild(content);
+}
 
-
-
+enableButton();
